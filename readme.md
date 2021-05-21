@@ -1,5 +1,8 @@
-<h3>Patitas Project</h3>
-<img src="https://img.shields.io/github/license/nahuelmol/waka-readme-stats"/>
+<h2>Patitas Project</h2>
+<div>
+  <img src="https://img.shields.io/github/license/nahuelmol/waka-readme-stats"/>
+  <img src="https://img.shields.io/github/forks/nahuelmol/waka-readme-stats"/>
+</div>
 That is a first look of the project
 <h3>Purpose</h3>
 Mainly, to build a fullstack project 
