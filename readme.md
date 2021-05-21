@@ -2,7 +2,7 @@
 <div>
   <img src="https://img.shields.io/github/license/nahuelmol/waka-readme-stats"/>
   <img src="https://img.shields.io/github/forks/nahuelmol/waka-readme-stats"/>
-  <img src="https://img.shields.io/github/commit-activity/m/nahuelmol/patitas?label=commits"/>
+  <img src="https://img.shields.io/github/commit-activity/m/nahuelmol/patitas"/>
   <img src="https://img.shields.io/github/contributors/nahuelmol/patitas"/>
 </div>
 <div>
