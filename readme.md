@@ -7,6 +7,7 @@ Mainly, to build a fullstack project
 To find dogs
 <h3>Future</h3>
 The future is uncertain
+Soon integrate ReactJs or another fontend framework
 <h3>Built with</h3>
 <a href="https://www.postgresql.org" target="_blank"> <img src="https://icongr.am/devicon/postgresql-plain.svg?size=40&color=74bec2" alt="postgresql"/></a>
 <a href="https://www.djangoproject.com" target="_blank"> <img src="https://icongr.am/devicon/django-plain.svg?size=40&color=74bec2" alt="django"/></a> 
