@@ -2,7 +2,16 @@
 <div>
   <img src="https://img.shields.io/github/license/nahuelmol/waka-readme-stats"/>
   <img src="https://img.shields.io/github/forks/nahuelmol/waka-readme-stats"/>
+  <img src="https://img.shields.io/github/commit-activity/m/nahuelmol/patitas?label=commits"/>
+  <img src="https://img.shields.io/github/contributors/nahuelmol/patitas"/>
 </div>
+<div>
+  <img src="https://img.shields.io/github/last-commit/nahuelmol/patitas"/>
+  <img src="https://img.shields.io/github/languages/code-size/nahuelmol/patitas"/>
+  <img src="https://img.shields.io/github/languages/top/nahuelmol/patitas"/>
+</div>
+</br>
+<h3>Introduction</h3>
 That is a first look of the project
 <h3>Purpose</h3>
 Mainly, to build a fullstack project 
