@@ -14,8 +14,10 @@
 <h3>Introduction</h3>
 That is a first look of the project
 <h3>Purpose</h3>
-Mainly, to build a fullstack project 
-<h3>motivation</h3>
+Mainly, to build a fullstack project :
+* develop backend and frontend sparately 
+* state a connection through http request using axios library
+<h3>Motivation</h3>
 To find dogs
 <h3>Future</h3>
 The future is uncertain
