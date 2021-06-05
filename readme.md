@@ -14,11 +14,17 @@
 <h3>Introduction</h3>
 That is a first look of the project
 <h3>Purpose</h3>
-Mainly, to build a fullstack project :
-* develop backend and frontend sparately 
-* state a connection through http request using axios library
+Mainly, to build a fullstack project:
+
+ - develop backend and frontend sparately 
+ - state a connection through http request using axios library
+
 <h3>Motivation</h3>
-To find dogs
+To find dogs:
+
+- keep connected the community in favor of a colaboratively work
+
+
 <h3>Future</h3>
 The future is uncertain
 Soon integrate ReactJs or another fontend framework
