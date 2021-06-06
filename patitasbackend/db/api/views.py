@@ -27,7 +27,7 @@ class CommentsView(viewsets.ViewSet):
         serialized      = CommentSerializer(queryset, many=True)
         return Response(serialized.data) 
 
-class PostView(viewsets.ViewSet):
+class PostsView(viewsets.ViewSet):
     @staticmethod
     def list(self):
         queryset        = Post.objects.all()
