@@ -1,31 +1,26 @@
 
 
 function calling_posts(){
-
-	headers = {
-		method: 'GET',
-  		//mode: 'no-cors',
-  		url:'http://localhost:8000/api/posts/',
-  		headers: {
-    		'Access-Control-Allow-Origin': '*',
-    		'Content-Type': 'application/x-www-form-urlencoded',
-    		//'Content-Type': null,
-    		//'Authorization': null,
-    		'X-Requested-With': 'XMLHttpRequest'
-  		},
-
-  		//withCredentials: true,
-  		//credentials: 'same-origin'
+  var urls    = 'http://localhost:8000/api/posts';
+  var headersi = {
+    //'Access-Control-Allow-Origin': '*',
+    //'Content-type': 'application/json; charset=UTF-8',
+    'X-Requested-With': 'XMLHttpRequest',
+  }
+	var config = {
+    method:'get',
+    url:'posts',
+    baseURL: 'http://localhost:8080/api/',
+    headers:headersi
 	}
 
-	axios.request(headers,{crossOrigin: null})
+	axios.get(urls,headersi)
   		.then((response) => {
   		var result = response.data;
 
-    	console.log(response.data);
+    	console.log(response.data[0].content);
     	console.log(response.status);
 
-    	//document.getElementById("something").innerHTML = result;
 	}).catch(e=>console.log(e));
 
 	

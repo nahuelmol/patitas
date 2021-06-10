@@ -1,4 +1,6 @@
 from pathlib import Path
+from corsheaders.defaults import default_headers
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,8 +33,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'patitasbackend.urls'
 
@@ -87,6 +88,25 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ],
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGIN_REGEXES = ["http://localhost:8000/api/posts"]
+CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
+                      'content-type', 'accept', 'origin', 'authorization')
+
+#CORS_ALLOW_HEADERS = list(default_headers) + []
 
 LANGUAGE_CODE = 'en-us'
 
