@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/yeti/bootstrap.min.css">
 	<title>Feed</title>
 </head>
 <body>
@@ -14,8 +15,33 @@
 		<div class="container center" id="top">
 			<h1>Last</h1>
 		</div>
-		<div>
-			
+		<div class="feed container">
+			<div class="card container">
+				<p id="lastuser"></p>
+				<p id="lastcontent"></p>
+
+				<div class="container jumbotron row">
+					<div id="lastshare" class="col-md text-center lastshare"></div>
+					<div id="lastlikes" class="col-md text-center lastlikes"></div>
+					<div id="lastresps" class="col-md text-center "></div>
+				</div>
+			</div>
+			<div id="card prelast">
+				<p class="content"></p>
+				<div class="stats row">
+					<div class="col-md text-center"></div>
+					<div class="col-md text-center"></div>
+					<div class="col-md text-center"></div>
+				</div>
+			</div>
+			<div id="card preprelast">
+				<p class="content"></p>
+				<div class="stats row">
+					<div class="col-md text-center"></div>
+					<div class="col-md text-center"></div>
+					<div class="col-md text-center"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>

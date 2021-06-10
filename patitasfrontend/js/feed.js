@@ -1,4 +1,4 @@
-
+var result = " ";
 
 function calling_posts(){
   var urls    = 'http://localhost:8000/api/posts';
@@ -7,19 +7,27 @@ function calling_posts(){
     //'Content-type': 'application/json; charset=UTF-8',
     'X-Requested-With': 'XMLHttpRequest',
   }
-	var config = {
-    method:'get',
-    url:'posts',
-    baseURL: 'http://localhost:8080/api/',
-    headers:headersi
-	}
+	
 
 	axios.get(urls,headersi)
   		.then((response) => {
-  		var result = response.data;
+      console.log(response.data[0])
 
-    	console.log(response.data[0].content);
-    	console.log(response.status);
+  		result    = response.data[0].content;
+      likes     = response.data[0].likes;
+      share     = response.data[0].shared;
+      responses = response.data[0].responses;
+      user      = response.data[0].username;
+
+      document.getElementById("lastuser").innerHTML     = user + " posted..";
+      document.getElementById("lastcontent").innerHTML  = result;
+      document.getElementById("lastlikes").innerHTML    = likes;
+      document.getElementById("lastshare").innerHTML    = share;
+      document.getElementById("lastresps").innerHTML    = responses;
+
+      var prelast     = document.getElementById("prelast");
+      var preprelast  = document.getElementById("preprelast");
+
 
 	}).catch(e=>console.log(e));
 
@@ -27,4 +35,6 @@ function calling_posts(){
 }
 
 calling_posts()
+
+
 
