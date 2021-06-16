@@ -3,13 +3,17 @@ var result = " ";
 function calling_posts(){
   var urls    = 'http://localhost:8000/api/posts';
   var headersi = {
-    //'Access-Control-Allow-Origin': '*',
-    //'Content-type': 'application/json; charset=UTF-8',
-    'X-Requested-With': 'XMLHttpRequest',
+    	'Origin': 'http://localhost:8080',
+	'Allow-Control-Request-Method':'*',
+    	'Access-Control-Request-Method': 'GET',
+    	'Access-Control-Request-Headers': 'NCZ'
   }
-	
+var config = {
+	url:urls,
+	headers:headersi
+}
 
-	axios.get(urls,headersi)
+axios.request(config)
   		.then((response) => {
       console.log(response.data[0])
 
