@@ -3,10 +3,10 @@ var result = " ";
 function calling_posts(){
   var urls    = 'http://localhost:8000/api/posts';
   var headersi = {
-    	'Origin': 'http://localhost:8080',
-	'Allow-Control-Request-Method':'*',
-    	'Access-Control-Request-Method': 'GET',
-    	'Access-Control-Request-Headers': 'NCZ'
+    	 'Origin': 'http://localhost:8080',
+	     //'Allow-Control-Request-Method':'*',
+    	 'Access-Control-Request-Method': 'GET',
+    	 'Access-Control-Request-Headers': 'NCZ'
   }
 var config = {
 	url:urls,
@@ -23,11 +23,23 @@ axios.request(config)
       responses = response.data[0].responses;
       user      = response.data[0].username;
 
+      result1   = response.data[1].content;
+      likes1    = response.data[1].likes;
+      share1    = response.data[1].shared;
+      responses1= response.data[1].responses;
+      user1     = response.data[1].username;
+
       document.getElementById("lastuser").innerHTML     = user + " posted..";
       document.getElementById("lastcontent").innerHTML  = result;
       document.getElementById("lastlikes").innerHTML    = likes;
       document.getElementById("lastshare").innerHTML    = share;
       document.getElementById("lastresps").innerHTML    = responses;
+
+      document.getElementById("prelastuser").innerHTML     = user1 + " posted..";
+      document.getElementById("prelastcontent").innerHTML  = result1;
+      document.getElementById("prelastlikes").innerHTML    = likes1;
+      document.getElementById("prelastshare").innerHTML    = share1;
+      document.getElementById("prelastresps").innerHTML    = responses1;
 
       var prelast     = document.getElementById("prelast");
       var preprelast  = document.getElementById("preprelast");
@@ -36,6 +48,21 @@ axios.request(config)
 	}).catch(e=>console.log(e));
 
 	
+}
+
+function calling_likes(){
+  var urls    = 'http://localhost:8000/api/posts';
+  var headersi = {
+       'Origin': 'http://localhost:8080',
+       'Allow-Control-Request-Method':'*',
+       'Access-Control-Request-Method': 'GET',
+       'Access-Control-Request-Headers': 'NCZ'
+  }
+  var config = {
+    url:urls,
+    headers:headersi
+  }
+
 }
 
 calling_posts()
