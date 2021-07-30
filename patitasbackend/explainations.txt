@@ -1,0 +1,3 @@
+Tasks
+
+I had read on internet varied basic ideas about cloning a social media that concerns or require **posting-comment** structure. Inspired in Quora, it's important to create models the corresponding to each format of objects.
