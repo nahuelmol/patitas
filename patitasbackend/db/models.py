@@ -15,6 +15,7 @@ class Cat(models.Model):
 	sex			= models.CharField(max_length = 30)
 
 class Post(models.Model):
+        published       = models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)
 	iconname	= models.CharField(max_length = 30)
 	time		= models.IntegerField()
@@ -24,6 +25,7 @@ class Post(models.Model):
 	shared		= models.IntegerField()
 
 class Comment(models.Model):
+        published       = models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)
 	iconname	= models.CharField(max_length = 30)
 	time		= models.IntegerField()
