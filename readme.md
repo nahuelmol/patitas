@@ -12,6 +12,7 @@
 </div>
 </br>
 <h3>Introduction</h3>
+The backend going to have a matcher system, which will compares each lost animal witha database. This way animals can be founded more rapidly.
 That is a first look of the project
 <h3>Purpose</h3>
 Mainly, to build a fullstack project:
