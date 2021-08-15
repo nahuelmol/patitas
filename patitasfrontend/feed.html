@@ -21,6 +21,7 @@
 	<div class="content">
 		<div class="container center" id="top">
 			<h1>Last</h1>
+			<div id="cosa"></div>
 		</div>
 		<div class="row">
 			<div class="left-column col-md">
@@ -35,22 +36,23 @@
 							<p id="lastcontent"></p>
 
 							<div class="container jumbotron row">
-								<div id="lastshare" onclick="calling_shares()" class="col-md text-center lastshare"></div>
-								<div id="lastlikes" onclick="calling_likes()" class="col-md text-center lastlikes"></div>
-								<div id="lastresps" onclick="calling_resps()" class="col-md text-center "></div>
+								<button id="lastshare" name="data" onclick="calling_shares()" class="col-md text-center lastshare"></button>
+								<button id="lastlikes" name="data" onclick="calling_likes()" class="col-md text-center lastlikes"></button>
+								<button id="lastresps" onclick="calling_resps()" class="col-md text-center "></button>
 							</div>
 						</div>
 					</div>
-					
-					<div class="card container posted">
-				<p id="prelastuser"></p>
-				<p id="prelastcontent"></p>
+					<div class="posted container">
+						<div class="card container">
+							<p id="prelastuser"></p>
+							<p id="prelastcontent"></p>
 
-				<div class="container jumbotron row">
-					<div id="prelastshare" class="col-md text-center"></div>
-					<div id="prelastlikes" class="col-md text-center"></div>
-					<div id="prelastresps" class="col-md text-center"></div>
-				</div>
+							<div class="container jumbotron row">
+								<div id="prelastshare" class="col-md text-center"></div>
+								<div id="prelastlikes" class="col-md text-center"></div>
+								<div id="prelastresps" class="col-md text-center"></div>
+							</div>
+						</div>
 					</div>
 					<div clas="card container posted">
 				<p class="content"></p>
@@ -66,6 +68,7 @@
 		</div>
 		
 	</div>
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 

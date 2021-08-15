@@ -15,7 +15,8 @@ var config = {
 
 axios.request(config)
   		.then((response) => {
-      console.log(response.data[0])
+      console.log(response.data[0].id)
+      console.log(response.data[1].id)
 
   		result    = response.data[0].content;
       likes     = response.data[0].likes;
@@ -50,20 +51,46 @@ axios.request(config)
 	
 }
 
-function calling_likes(){
-  var urls    = 'http://localhost:8000/api/posts';
-  var headersi = {
-       'Origin': 'http://localhost:8080',
-       'Allow-Control-Request-Method':'*',
-       'Access-Control-Request-Method': 'GET',
-       'Access-Control-Request-Headers': 'NCZ'
-  }
-  var config = {
-    url:urls,
-    headers:headersi
-  }
+function calling_shares(name){
+  //var urls    = 'http://localhost:8000/api/posts';
+  //var headersi = {
+  //     'Origin': 'http://localhost:8080',
+  //     'Allow-Control-Request-Method':'*',
+  //     'Access-Control-Request-Method': 'GET',
+  //     'Access-Control-Request-Headers': 'NCZ'
+  //}
+  //var config = {
+  //  url:urls,
+  //  headers:headersi
+  //}
+  var template = Handlebars.compile("Handlebars <b>{{doesWhat}}</b>");
+  // execute the compiled template and print the output to the console
+
+  console.log(template({ doesWhat: "rocks!" }));
+  document.getElementById("cosa").innerHTML = template({ doesWhat: "rocks!" });
+
+  console.log(name);
 
 }
+
+function calling_likes(){
+  //var urls    = 'http://localhost:8000/api/posts';
+  //var headersi = {
+  //     'Origin': 'http://localhost:8080',
+  //     'Allow-Control-Request-Method':'*',
+  //     'Access-Control-Request-Method': 'GET',
+  //     'Access-Control-Request-Headers': 'NCZ'
+  //}
+  //var config = {
+  //  url:urls,
+  //  headers:headersi
+  //}
+
+  console.log(data);
+
+}
+
+
 
 calling_posts()
 
