@@ -1,4 +1,11 @@
-class OrderInReverse():
+from abc import ABCMeta, abstractstaticmethod
+
+class Command(metaclass=ABCMeta):
+        @abstractstaticmethod
+        def execute():
+                pass
+
+class OrderInReverse(Command):
 	def __init__(self, order, queryset):
 		self._order 	= order
 		self._queryset 	= queryset
@@ -9,7 +16,7 @@ class OrderInReverse():
 		self._order.closing()
 
 
-class OrderInBubble():
+class OrderInBubble(Command):
 	def __init__(self, order, queryset):
 		self._order 	= order
 		self._queryset 	= queryset
