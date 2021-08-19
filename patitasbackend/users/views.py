@@ -50,3 +50,12 @@ def profile(req):
 	context = {}
 	return render(req,'accounts/profiles/profile.html',context)
 
+@login_required(login_url='login')
+def feed(req):
+        context = {}
+        return render(req,'',context)
+
+@login_required(login_url='login')
+def events(req):
+        context = {}
+        return render(req,'',context)
