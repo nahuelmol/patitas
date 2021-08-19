@@ -20,7 +20,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'db',
     'corsheaders',
-    'toOrder'
+    'toOrder',
+    'users'
 ]
 
 MIDDLEWARE = [
