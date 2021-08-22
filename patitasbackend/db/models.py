@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Events(models.Model):
+class Event(models.Model):
 
 	class Orientations(models.TextChoices):
 		unknown		= 'unknown'
@@ -9,9 +9,12 @@ class Events(models.Model):
 		Awareness	= 'Awareness'
 		Meeting		= 'Meeting'
 
-	owner			= models.ForeignKey('User', on_delete=models.CASCADE)
 	team			= models.ManyToManyField(User)
+
 	date_created 	= models.DateTimeField()
+	date_to_do 		= models.IntegerField()
+
+	likes			= models.IntegerField()
 	description		= models.TextField()
 	topic			= models.TextField(	max_length=40,
 											choices=Orientations.choices,
@@ -25,7 +28,7 @@ class Dog(models.Model):
 		Stable		= 'Stable'
 		Critical	= 'Critical'
 
-	publisher	= models.ForeignKey('User', on_delete=models.CASCADE)
+	publisher	= models.ForeignKey(User, on_delete=models.CASCADE)
 	age			= models.IntegerField()
 	weight		= models.FloatField()
 	race		= models.CharField(max_length = 30)
@@ -47,7 +50,7 @@ class Cat(models.Model):
 		Stable		= 'Stable'
 		Critical	= 'Critical'
 
-	publisher	= models.ForeignKey('User',on_delete = models.CASCADE)
+	publisher	= models.ForeignKey(User,on_delete = models.CASCADE)
 	age			= models.IntegerField()
 	weight		= models.FloatField()
 	race		= models.CharField(max_length = 30)
@@ -62,7 +65,7 @@ class Cat(models.Model):
 									default='unknown')
 
 class Post(models.Model):
-	owner 		= models.ForeignKey('User', on_delete=models.CASCADE)
+	owner 		= models.ForeignKey(User, on_delete=models.CASCADE)
 
 	date		= models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)
@@ -73,7 +76,7 @@ class Post(models.Model):
 	shared		= models.IntegerField()
 
 class Comment(models.Model):
-	owner		= models.ForeignKey('User', on_delete=models.CASCADE)
+	owner		= models.ForeignKey(User, on_delete=models.CASCADE)
 
 	date		= models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)

@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 
 from db.models import Cat, Dog, Comment, Post
-from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, PostSerializer
+from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, PostSerializer, EventSerializer
 
 from toOrder.controller import last_first
 
@@ -47,3 +47,12 @@ class PostsView(viewsets.ViewSet):
         if queryset:
             ordered_data = last_first(serialized.data)
         return Response(ordered_data) 
+
+class EventsView(viewsets.ViewSet):
+    @staticmethod
+    def list(self):
+        queryset        = Event.objects.all()
+        serialized      = EventSerializer(queryset, many=True)
+
+        return serialized.data
+

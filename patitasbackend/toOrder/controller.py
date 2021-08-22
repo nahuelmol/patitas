@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+#here is just the logic algorithms of ordering
+#it is better to use directly what django provides us to order data 
+
 def last_first(all_set):
 	print("Bubble ordering method applying, reversing")
 	new_set = [1,2,3,4,5,6]

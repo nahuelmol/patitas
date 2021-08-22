@@ -49,6 +49,10 @@ def logoutPage(req):
 
 @login_required(login_url='login')
 def profile(req):
+
+	if req.method == 'GET':
+		req.user.username
+
 	context = {}
 	return render(req,'accounts/profiles/profile.html',context)
 
