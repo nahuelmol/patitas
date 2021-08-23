@@ -15,7 +15,7 @@ class Event(models.Model):
 	date_to_do 		= models.IntegerField()
 
 	likes			= models.IntegerField()
-	description		= models.TextField()
+	description		= models.TextField(default="none description")
 	topic			= models.TextField(	max_length=40,
 											choices=Orientations.choices,
 											blank=None,
@@ -34,8 +34,8 @@ class Dog(models.Model):
 	race		= models.CharField(max_length = 30)
 	heigth		= models.FloatField()
 	sex			= models.CharField(max_length = 30)
-	description	= models.TextField()
-	photo_prof	= models.ImageField()
+	description	= models.TextField(default="none description")
+	photo_prof	= models.ImageField(default=None,blank=True,null=True)
 
 	health_state = models.CharField(	max_length=35,
 									choices = HealthState.choices,
@@ -56,7 +56,7 @@ class Cat(models.Model):
 	race		= models.CharField(max_length = 30)
 	heigth		= models.FloatField()
 	sex			= models.CharField(max_length = 30)
-	description	= models.TextField()
+	description	= models.TextField(default="none description")
 	photo_prof	= models.ImageField()
 
 	health_state = models.CharField(max_length=35,

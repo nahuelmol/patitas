@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 
+from users.decorators import unauthenticated_user
+
 @unauthenticated_user
 def registerPage(req):
 	form = UserForm()
@@ -51,9 +53,13 @@ def logoutPage(req):
 def profile(req):
 
 	if req.method == 'GET':
-		req.user.username
+		username 	= req.user.username
+		email		= req.user.email
+		
+		context = {	'username':	username,
+					'email': 	email
+		}
 
-	context = {}
 	return render(req,'accounts/profiles/profile.html',context)
 
 @login_required(login_url='login')

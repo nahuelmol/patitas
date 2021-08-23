@@ -6,9 +6,9 @@ from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, P
 
 from toOrder.controller import last_first
 
-from django.shortcuts import render
-
 class CatsView(viewsets.ViewSet):
+
+    @action(detail=True,methods=['post','get'])
     @staticmethod
     def list(self):
         queryset        = Cat.objects.all()
@@ -18,7 +18,18 @@ class CatsView(viewsets.ViewSet):
             ordered_data = last_first(serialized.data)
         return Response(ordered_data) 
 
+    @action(detail=True,methods=['post','get'])
+    @staticmethod
+    def retrieve(self, request, pk):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+
+        serialized = UserSerializer(user)
+        return Response(serialized.data)
+
 class DogsView(viewsets.ViewSet):
+
+    @action(detail=True,methods=['post','get'])
     @staticmethod
     def list(self):
         queryset        = Dog.objects.all()
@@ -28,7 +39,18 @@ class DogsView(viewsets.ViewSet):
             ordered_data = last_first(serialized.data)
         return Response(ordered_data) 
 
+    @action(detail=True,methods=['post','get'])
+    @staticmethod
+    def retrieve(self, request, pk):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+
+        serialized = UserSerializer(user)
+        return Response(serialized.data)
+
 class CommentsView(viewsets.ViewSet):
+
+    @action(detail=True,methods=['get'])
     @staticmethod
     def list(self):
         queryset        = Comment.objects.all()
@@ -38,7 +60,16 @@ class CommentsView(viewsets.ViewSet):
             ordered_data = last_first(serialized.data)
         return Response(ordered_data) 
 
+    @staticmethod
+    def retrieve(self, request, pk):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+
+        serialized = UserSerializer(user)
+        return Response(serialized.data)
+
 class PostsView(viewsets.ViewSet):
+    @action(detail=True,methods=['get'])
     @staticmethod
     def list(self):
         queryset        = Post.objects.all()
@@ -48,7 +79,17 @@ class PostsView(viewsets.ViewSet):
             ordered_data = last_first(serialized.data)
         return Response(ordered_data) 
 
+    @staticmethod
+    def retrieve(self, request, pk):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+
+        serialized = UserSerializer(user)
+        return Response(serialized.data)
+
 class EventsView(viewsets.ViewSet):
+
+    @action(detail=True,methods=['get'])
     @staticmethod
     def list(self):
         queryset        = Event.objects.all()
@@ -56,3 +97,10 @@ class EventsView(viewsets.ViewSet):
 
         return serialized.data
 
+    @staticmethod
+    def retrieve(self, request, pk):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+
+        serialized = UserSerializer(user)
+        return Response(serialized.data)
