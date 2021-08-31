@@ -12,8 +12,25 @@
 </div>
 </br>
 <h3>Introduction</h3>
+
 The backend going to have a matcher system, which will compares each lost animal witha database. This way animals can be founded more rapidly.
 That is a first look of the project
+
+<h4>Tests</h4>
+
+Inside of each app is a **test** folder that contains all the test functions over the same app.
+
+For all apps
+
+```
+python manage.py test
+```
+For each one
+
+```
+python manage.py test <app_name>/<test_folder_name>
+```
+
 <h3>Purpose</h3>
 Mainly, to build a fullstack project:
 
