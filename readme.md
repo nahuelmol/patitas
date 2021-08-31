@@ -28,7 +28,7 @@ python manage.py test
 For each one
 
 ```
-python manage.py test <app_name>/<test_folder_name>
+python manage.py test <app_name>.<test_folder_name>
 ```
 
 <h3>Purpose</h3>
