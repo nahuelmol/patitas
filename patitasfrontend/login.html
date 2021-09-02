@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login and Register</title>
+</head>
+<body>
+	<form action="http://localhost:8000/storage/login/" method="post">
+	
+		<label for="u_name">Username:</label><br>
+  		<input type="text" id="u_name" name="username"><br>
+  		<label for="pass">Password:</label><br>
+  		<input type="text" id="pass" name="password">
+
+  		<label for="u_email">Email: </label><br>
+  		<input type="text" id="u_email" name="email">
+
+  		<input type="submit" value="Submit">
+	</form>
+
+	<form action="http://localhost:8000/storage/register/" method="post">
+	
+		<label for="u_name">Username:</label><br>
+  		<input type="text" id="u_name" name="username"><br>
+  		<label for="pass">Password:</label><br>
+  		<input type="text" id="pass" name="password"><br>
+  		<label for="u_email">Email: </label><br>
+  		<input type="text" id="u_email" name="email"><br>
+
+  		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>

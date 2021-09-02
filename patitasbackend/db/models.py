@@ -9,7 +9,7 @@ class Event(models.Model):
 		Awareness	= 'Awareness'
 		Meeting		= 'Meeting'
 
-	team			= models.ManyToManyField(User)
+	creator			= models.ForeignKey(User, on_delete=models.CASCADE)
 
 	date_created 	= models.DateTimeField()
 	date_to_do 		= models.IntegerField()
@@ -28,14 +28,15 @@ class Dog(models.Model):
 		Stable		= 'Stable'
 		Critical	= 'Critical'
 
-	publisher	= models.ForeignKey(User, on_delete=models.CASCADE)
+	publisher	= models.ForeignKey(User, on_delete=models.CASCADE,
+									default=0)
 	age			= models.IntegerField()
 	weight		= models.FloatField()
 	race		= models.CharField(max_length = 30)
 	heigth		= models.FloatField()
 	sex			= models.CharField(max_length = 30)
 	description	= models.TextField(default="none description")
-	photo_prof	= models.ImageField(default=None,blank=True,null=True)
+	#photo_prof	= models.ImageField(default=None,blank=True,null=True)
 
 	health_state = models.CharField(	max_length=35,
 									choices = HealthState.choices,
@@ -50,14 +51,15 @@ class Cat(models.Model):
 		Stable		= 'Stable'
 		Critical	= 'Critical'
 
-	publisher	= models.ForeignKey(User,on_delete = models.CASCADE)
+	publisher	= models.ForeignKey(User,on_delete = models.CASCADE,	
+									default=0)
 	age			= models.IntegerField()
 	weight		= models.FloatField()
 	race		= models.CharField(max_length = 30)
 	heigth		= models.FloatField()
 	sex			= models.CharField(max_length = 30)
 	description	= models.TextField(default="none description")
-	photo_prof	= models.ImageField()
+	#photo_prof	= models.ImageField()
 
 	health_state = models.CharField(max_length=35,
 									choices = HealthState.choices,
@@ -65,7 +67,8 @@ class Cat(models.Model):
 									default='unknown')
 
 class Post(models.Model):
-	owner 		= models.ForeignKey(User, on_delete=models.CASCADE)
+	owner 		= models.ForeignKey(User, on_delete=models.CASCADE,
+										default=0)
 
 	date		= models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)
@@ -76,7 +79,8 @@ class Post(models.Model):
 	shared		= models.IntegerField()
 
 class Comment(models.Model):
-	owner		= models.ForeignKey(User, on_delete=models.CASCADE)
+	owner		= models.ForeignKey(User, on_delete=models.CASCADE,	
+									default=0)
 
 	date		= models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)

@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'toOrder',
     'users',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
@@ -112,8 +113,6 @@ CORS_ALLOW_METHODS = [
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
                       'content-type', 'accept', 'origin', 'authorization')
 
-#CORS_ALLOW_HEADERS = list(default_headers) + []
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -125,3 +124,14 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    #'DEFAULT_AUTHENTICATION_CLASSES':{
+    #    'rest_framework.authentication.TokenAuthentication',
+    #    'rest_framework.authentication.SessionAuthentication'
+    #},
+    'DEFAULT_PERMISSION_CLASSES':{
+        'rest_framework.permissions.IsAuthenticated'
+    }
+}
+
