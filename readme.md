@@ -12,8 +12,25 @@
 </div>
 </br>
 <h3>Introduction</h3>
+
 The backend going to have a matcher system, which will compares each lost animal witha database. This way animals can be founded more rapidly.
 That is a first look of the project
+
+<h4>Tests</h4>
+
+Inside of each app is a **test** folder that contains all the test functions over the same app.
+
+For all apps
+
+```
+python manage.py test
+```
+For each one
+
+```
+python manage.py test <app_name>.<test_folder_name>
+```
+
 <h3>Purpose</h3>
 Mainly, to build a fullstack project:
 
@@ -39,3 +56,5 @@ Your are free to contribute in this project, add whatever you think it is necess
 <a href="https://www.djangoproject.com" target="_blank"> <img src="https://icongr.am/devicon/django-plain.svg?size=40&color=74bec2" alt="django"/></a> 
 <a href="https://python.org/" target="_blank"> <img src="https://icongr.am/devicon/python-plain.svg?size=40&color=74bec2" alt="python"/></a>
 <a href="https://www.w3schools.com/css/" target="_blank"> <img src="https://i.ibb.co/W0mzJxc/icons8-css3-128.png" alt="css3" width="40" height="40"/></a>
+
+<p>I have decided to build two systems with the same backend, one of those implement a microservice methodolgy and the other one is all in one, including Django's templates</p>
