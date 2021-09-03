@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
 from db.permissions import IsUserLoggedIn
-from db.models import Cat, Dog, Comment, Post
+from db.models import Cat, Dog, Comment, Post, Event
 from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, EventSerializer
 from db.api.serializer import PostListSerializer, PostCreateSerializer
 
@@ -46,9 +46,8 @@ class DogsListView(generics.ListCreateAPIView):
     queryset            = Dog.objects.all()
     serializer_class    = DogSerializer
 
-    permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = ()
-    permission_classes = ()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [ authentication.SessionAuthentication]
 
     #add the current user as a publisher of the dog
     def perform_create(self, serializer):
@@ -57,19 +56,17 @@ class DogsListView(generics.ListCreateAPIView):
 class CommentsView(viewsets.ViewSet):
 
     authentication_classes = [ authentication.SessionAuthentication]
-    permission_classes = [  permissions.IsAuthenticatedOrReadOnly, 
+    permission_classes = [  permissions.IsAuthenticated, 
                             IsUserLoggedIn]
 
     def create(self):
         pass
 
-    def list(self):
+    def list(self, request):
         queryset        = Comment.objects.all()
         serialized      = CommentSerializer(queryset, many=True)
 
-        if queryset:
-            ordered_data = last_first(serialized.data)
-        return Response(ordered_data) 
+        return Response(serialized.data) 
 
     def retrieve(self, request, pk):
         queryset = Comment.objects.all()
@@ -116,7 +113,8 @@ class PostsView(viewsets.ViewSet):
         return Response(serialized.data)
 
 class EventsView(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes      = [permissions.IsAuthenticated]
+    authentication_classes  = [authentication.SessionAuthentication]
 
     def create(self):
         pass
@@ -125,7 +123,7 @@ class EventsView(viewsets.ViewSet):
         queryset        = Event.objects.all()
         serialized      = EventSerializer(queryset, many=True)
 
-        return serialized.data
+        return Response(serialized.data)
 
     def retrieve(self, request, pk):
         queryset = Event.objects.all()
