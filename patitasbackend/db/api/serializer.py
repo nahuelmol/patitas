@@ -26,10 +26,9 @@ class PostListSerializer(serializers.ModelSerializer):
 
 class PostCreateSerializer(serializers.ModelSerializer):
 
-	owner = serializers.IntegerField(source='user', read_only=True)
-
+	owner = serializers.ReadOnlyField(source='user.username', read_only=True)
 	class Meta:
-		fields	= ('id', 'owner')
+		fields	= ('__all__')
 		model 	= Post 
 
 	def create(self, validated_data):
@@ -38,7 +37,6 @@ class PostCreateSerializer(serializers.ModelSerializer):
 		return post
 
 class EventSerializer(serializers.ModelSerializer):
-
 	class Meta:
 		fields	= '__all__'
 		model 	= Event

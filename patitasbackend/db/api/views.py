@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, authentication
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -15,7 +15,9 @@ from toOrder.controller import last_first
 
 class CatsView(viewsets.ViewSet):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [ authentication.SessionAuthentication]
+    permission_classes = [  permissions.IsAuthenticatedOrReadOnly, 
+                            IsUserLoggedIn]
 
     def create(self, request):
 
@@ -54,7 +56,9 @@ class DogsListView(generics.ListCreateAPIView):
 
 class CommentsView(viewsets.ViewSet):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [ authentication.SessionAuthentication]
+    permission_classes = [  permissions.IsAuthenticatedOrReadOnly, 
+                            IsUserLoggedIn]
 
     def create(self):
         pass
@@ -76,16 +80,19 @@ class CommentsView(viewsets.ViewSet):
 
 class PostListCreate(generics.ListCreateAPIView):
     queryset = Post.objects.all()
-    permission_classes = [IsUserLoggedIn]
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.id)
+    authentication_classes = [ authentication.SessionAuthentication]
+    permission_classes = [  permissions.IsAuthenticatedOrReadOnly, 
+                            IsUserLoggedIn]
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return PostListSerializer
         else:
             return PostCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class PostsView(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
