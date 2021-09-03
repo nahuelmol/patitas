@@ -16,7 +16,14 @@ class CatsView(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self, request):
-        pass
+
+        queryset            = Cat.objects.all()
+        serializer_class    = CatSerializer
+
+        permission_classes  = [permissions.IsAuthenticatedOrReadOnly]
+
+        def perform_create(self, serializer):
+            serializer.save(publisher=self.request.user)
 
     def list(self,request):
         queryset        = Cat.objects.all()
@@ -37,6 +44,7 @@ class DogsListView(generics.ListCreateAPIView):
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    #add the current user as a publisher of the dog
     def perform_create(self, serializer):
         serializer.save(publisher=self.request.user)
 
