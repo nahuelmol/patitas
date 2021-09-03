@@ -18,7 +18,7 @@ That is a first look of the project
 
 <h4>Tests</h4>
 
-Inside of each app is a **test** folder that contains all the test functions over the same app.
+Inside of each app is a **tests** folder that contains all the test functions over the same app.
 
 For all apps
 
