@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+import datetime
+
 class Event(models.Model):
 
 	class Orientations(models.TextChoices):
@@ -14,7 +16,7 @@ class Event(models.Model):
 	date_created 	= models.DateTimeField()
 	date_to_do 		= models.IntegerField()
 
-	likes			= models.IntegerField()
+	likes			= models.IntegerField(default=0)
 	description		= models.TextField(default="none description")
 	topic			= models.TextField(	max_length=40,
 											choices=Orientations.choices,

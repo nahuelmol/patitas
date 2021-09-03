@@ -37,6 +37,9 @@ class DogsListView(generics.ListCreateAPIView):
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def perform_create(self, serializer):
+        serializer.save(publisher=self.request.user)
+
 class CommentsView(viewsets.ViewSet):
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -65,7 +68,7 @@ class PostsView(viewsets.ViewSet):
     def create(self):
         pass
 
-    def list(self):
+    def list(self, request):
         queryset        = Post.objects.all()
         serialized      = PostSerializer(queryset, many=True)
 

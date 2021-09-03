@@ -25,6 +25,7 @@ class PostSerializer(serializers.ModelSerializer):
 		model 	= Post 
 
 class EventSerializer(serializers.ModelSerializer):
+
 	class Meta:
 		fields	= '__all__'
 		model 	= Event
