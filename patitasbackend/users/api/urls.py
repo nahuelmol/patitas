@@ -12,8 +12,6 @@ router = routers.SimpleRouter()
 login_view		= LoginView.as_view()
 register_view	= UserViewSet.as_view()
 
-#router.register(r'allusers', 		UserListView, basename='user')
-#router.register(r'all_users', 		unique_user, basename='all_users')
 
 urlpatterns = [
 	path('login/',		login_view, name='login'),

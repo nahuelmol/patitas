@@ -69,8 +69,10 @@ class Cat(models.Model):
 									default='unknown')
 
 class Post(models.Model):
-	owner 		= models.ForeignKey(User, on_delete=models.CASCADE,
-										default=0)
+	owner 		= models.ForeignKey(User,
+									blank=True,
+									null=True, 
+									on_delete=models.CASCADE)
 
 	date		= models.DateTimeField(auto_now_add=True)
 	username	= models.CharField(max_length = 30)

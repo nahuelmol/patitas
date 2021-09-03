@@ -76,7 +76,7 @@ class CommentsView(viewsets.ViewSet):
 
 class PostListCreate(generics.ListCreateAPIView):
     queryset = Post.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsUserLoggedIn]
+    permission_classes = [IsUserLoggedIn]
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

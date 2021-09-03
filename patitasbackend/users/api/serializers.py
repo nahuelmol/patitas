@@ -4,6 +4,8 @@ from rest_framework.authtoken.models import Token
 
 class UserSerializer(serializers.ModelSerializer):
 
+	postes	= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
 	class Meta:
 		model = User
 		fields = ('username', 'email', 'password')
@@ -25,9 +27,9 @@ class UserListSerializer(serializers.ModelSerializer):
 
 	cats		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 	dogs		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-	posts		= serializers.StringRelatedField(many=True, read_only=True)
-	comments 	= serializers.StringRelatedField(many=True, read_only=True)
+	postes		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+	comments 	= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
 	class Meta:
 		model = User 
-		fields = ('id', 'username', 'dogs', 'posts', 'cats')
+		fields = ('id', 'username', 'dogs', 'postes', 'cats')
