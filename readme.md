@@ -57,4 +57,4 @@ Your are free to contribute in this project, add whatever you think it is necess
 <a href="https://python.org/" target="_blank"> <img src="https://icongr.am/devicon/python-plain.svg?size=40&color=74bec2" alt="python"/></a>
 <a href="https://www.w3schools.com/css/" target="_blank"> <img src="https://i.ibb.co/W0mzJxc/icons8-css3-128.png" alt="css3" width="40" height="40"/></a>
 
-<p>I have decided to build two systems with the same backend, one of those implement a microservice methodolgy and the other one is all in one, including Django's templates</p>
+<p>I have decided to build two systems with the same backend, one of those implement a microservice architecture and the other one is a monolithic one, including Django's templates.</p>
