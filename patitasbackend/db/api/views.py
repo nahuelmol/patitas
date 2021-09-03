@@ -9,6 +9,9 @@ from toOrder.controller import last_first
 
 class CatsView(viewsets.ViewSet):
 
+    def create(self):
+        pass
+
     def list(self):
         queryset        = Cat.objects.all()
         serialized      = CatSerializer(queryset, many=True)
@@ -26,13 +29,19 @@ class CatsView(viewsets.ViewSet):
 
 class DogsView(viewsets.ViewSet):
 
+    #queryset = User.objects.all()
+    #serializer_class = UserSerializer
+
+    def create(self):
+        pass
+
     def list(self):
         queryset        = Dog.objects.all()
         serialized      = DogSerializer(queryset, many=True)
 
         if queryset:
             ordered_data = last_first(serialized.data)
-        return Response(ordered_data) 
+        return Response(serialized.data) 
 
     def retrieve(self, request, pk):
         queryset = User.objects.all()
@@ -42,6 +51,9 @@ class DogsView(viewsets.ViewSet):
         return Response(serialized.data)
 
 class CommentsView(viewsets.ViewSet):
+
+    def create(self):
+        pass
 
     def list(self):
         queryset        = Comment.objects.all()
@@ -59,6 +71,10 @@ class CommentsView(viewsets.ViewSet):
         return Response(serialized.data)
 
 class PostsView(viewsets.ViewSet):
+
+    def create(self):
+        pass
+
     def list(self):
         queryset        = Post.objects.all()
         serialized      = PostSerializer(queryset, many=True)
@@ -75,6 +91,9 @@ class PostsView(viewsets.ViewSet):
         return Response(serialized.data)
 
 class EventsView(viewsets.ViewSet):
+
+    def create(self):
+        pass
 
     def list(self):
         queryset        = Event.objects.all()

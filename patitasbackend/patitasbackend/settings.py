@@ -43,7 +43,7 @@ ROOT_URLCONF = 'patitasbackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,21 +80,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    #'DEFAULT_PERMISSION_CLASSES':[
-    #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    #],
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated'
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-    ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-}
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -125,10 +110,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    #'DEFAULT_AUTHENTICATION_CLASSES':{
+    'DEFAULT_AUTHENTICATION_CLASSES':{
     #    'rest_framework.authentication.TokenAuthentication',
-    #    'rest_framework.authentication.SessionAuthentication'
-    #},
+        'rest_framework.authentication.SessionAuthentication'
+    },
     'DEFAULT_PERMISSION_CLASSES':{
         'rest_framework.permissions.IsAuthenticated'
     }
