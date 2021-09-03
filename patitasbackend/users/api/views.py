@@ -17,13 +17,25 @@ class UserListView(generics.ListCreateAPIView):
 	permission_classes	= [permissions.IsAuthenticatedOrReadOnly]
 
 class UserViewSet(generics.CreateAPIView):
-	authentication_classes = ()
+	authentication_classes = [
+		authentication.SessionAuthentication,
+		authentication.TokenAuthentication
+	]
+
 	permission_classes = ()
+
 	serializer_class = UserSerializer
 
 class LoginView(APIView):
-	authentication_classes	= [authentication.SessionAuthentication, authentication.TokenAuthentication]
-	permission_classes 		= [permissions.IsAuthenticated]
+
+	authentication_classes = [
+		authentication.TokenAuthentication,
+		authentication.SessionAuthentication
+    	]
+
+	permission_classes = [
+		#permissions.IsAuthenticatedOrReadOnly
+	]
 
 	def post(self,request):
 		username 	= request.data.get("username")
@@ -32,6 +44,8 @@ class LoginView(APIView):
 		user 		= authenticate(username=username, password=password)
 
 		if user:
+			print('The user is: '+ user.username)
+
 			return Response({"token":user.auth_token.key})
 		else:
 			return Response({"error":"Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
@@ -42,7 +56,6 @@ class ListUsers(APIView):
 		usernames = [user.username for user in User.objects.all()]
 		return Response(usernames)
 
-@login_required(login_url='login')
 class UserView(viewsets.ViewSet):
 
 	def retrieve(self, request, pk):
@@ -53,7 +66,7 @@ class UserView(viewsets.ViewSet):
 		serialized = UserSerializer(user)
 		return Response(serialized.data)
 
-	def list(self):
+	def list(self, request):
 		queryset        = User.objects.all()
 		serialized      = UserSerializer(queryset, many=True)
 

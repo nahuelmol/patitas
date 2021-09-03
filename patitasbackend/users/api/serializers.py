@@ -4,13 +4,9 @@ from rest_framework.authtoken.models import Token
 
 class UserSerializer(serializers.ModelSerializer):
 
-	events		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-	posts		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-	comments	= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
 	class Meta:
 		model = User
-		fields = ('username', 'email', 'password', 'events', 'posts','comments')
+		fields = ('username', 'email', 'password')
 		extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
 	def create(self, validated_data):

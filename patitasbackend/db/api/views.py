@@ -6,8 +6,10 @@ from rest_framework import permissions, generics
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
+from db.permissions import IsUserLoggedIn
 from db.models import Cat, Dog, Comment, Post
-from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, PostSerializer, EventSerializer
+from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, EventSerializer
+from db.api.serializer import PostListSerializer, PostCreateSerializer
 
 from toOrder.controller import last_first
 
@@ -42,7 +44,9 @@ class DogsListView(generics.ListCreateAPIView):
     queryset            = Dog.objects.all()
     serializer_class    = DogSerializer
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = ()
+    permission_classes = ()
 
     #add the current user as a publisher of the dog
     def perform_create(self, serializer):
@@ -70,15 +74,25 @@ class CommentsView(viewsets.ViewSet):
         serialized = UserSerializer(comment)
         return Response(serialized.data)
 
+class PostListCreate(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsUserLoggedIn]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PostListSerializer
+        else:
+            return PostCreateSerializer
+
 class PostsView(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def create(self):
-        pass
+    def create(self, request):
+        print(request.data)
 
     def list(self, request):
         queryset        = Post.objects.all()
-        serialized      = PostSerializer(queryset, many=True)
+        serialized      = PostListSerializer(queryset, many=True)
 
         if queryset:
             ordered_data = last_first(serialized.data)

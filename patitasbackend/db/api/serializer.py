@@ -19,10 +19,19 @@ class CommentSerializer(serializers.ModelSerializer):
 		fields 	= '__all__'
 		model 	= Comment
 
-class PostSerializer(serializers.ModelSerializer):
+class PostListSerializer(serializers.ModelSerializer):
 	class Meta:
 		fields	= '__all__'
 		model 	= Post 
+
+class PostCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		fields	= '__all__'
+		model 	= Post 
+
+	def create(self, validated_data):
+		post = Post.objects.create(**validated_data)
+		return post
 
 class EventSerializer(serializers.ModelSerializer):
 

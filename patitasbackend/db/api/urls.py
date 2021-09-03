@@ -6,6 +6,7 @@ from django.conf.urls import url
 from django.urls import path
 
 from db.api.views import CatsView, DogsListView, PostsView, EventsView, CommentsView
+from db.api.views import PostListCreate
 
 from django.views.generic import TemplateView
 
@@ -22,7 +23,8 @@ urlpatterns = [
 	path('comments/', 		CommentsView.as_view({'get':'list'})),
 	path('comments/<int:pk>',CommentsView.as_view({'get':'retrieve'})),
 	path('posts/',			PostsView.as_view({'get':'list'})),
-	path('posts/<int:pk>', 	PostsView.as_view({'get':'retrieve'}))
+	path('posts/<int:pk>', 	PostsView.as_view({'get':'retrieve'})),
+	path('post/create',		PostListCreate.as_view())
 ]
 
 urlpatterns += router.urls
