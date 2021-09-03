@@ -7,3 +7,7 @@ urlpatterns = [
     path('db/', include('db.api.urls', namespace='myapi')),
     path('user/', include('users.api.urls', namespace='users_data')),
 ]
+
+urlpatterns += [
+	path('api-auth/', include('rest_framework.urls'))
+]

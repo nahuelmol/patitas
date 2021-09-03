@@ -1,6 +1,10 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework import permissions, generics
+
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 from db.models import Cat, Dog, Comment, Post
 from db.api.serializer import CatSerializer, DogSerializer, CommentSerializer, PostSerializer, EventSerializer
@@ -9,48 +13,33 @@ from toOrder.controller import last_first
 
 class CatsView(viewsets.ViewSet):
 
-    def create(self):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def create(self, request):
         pass
 
-    def list(self):
+    def list(self,request):
         queryset        = Cat.objects.all()
         serialized      = CatSerializer(queryset, many=True)
-
-        if queryset:
-            ordered_data = last_first(serialized.data)
-        return Response(ordered_data) 
-
-    def retrieve(self, request, pk):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-
-        serialized = UserSerializer(user)
-        return Response(serialized.data)
-
-class DogsView(viewsets.ViewSet):
-
-    #queryset = User.objects.all()
-    #serializer_class = UserSerializer
-
-    def create(self):
-        pass
-
-    def list(self):
-        queryset        = Dog.objects.all()
-        serialized      = DogSerializer(queryset, many=True)
-
-        if queryset:
-            ordered_data = last_first(serialized.data)
+        
         return Response(serialized.data) 
 
     def retrieve(self, request, pk):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
+        queryset = Cat.objects.all()
+        cat = get_object_or_404(queryset, pk=pk)
 
-        serialized = UserSerializer(user)
+        serialized = CatSerializer(cat)
         return Response(serialized.data)
 
+class DogsListView(generics.ListCreateAPIView):
+    queryset            = Dog.objects.all()
+    serializer_class    = DogSerializer
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 class CommentsView(viewsets.ViewSet):
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self):
         pass
@@ -64,13 +53,14 @@ class CommentsView(viewsets.ViewSet):
         return Response(ordered_data) 
 
     def retrieve(self, request, pk):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
+        queryset = Comment.objects.all()
+        comment = get_object_or_404(queryset, pk=pk)
 
-        serialized = UserSerializer(user)
+        serialized = UserSerializer(comment)
         return Response(serialized.data)
 
 class PostsView(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self):
         pass
@@ -84,26 +74,27 @@ class PostsView(viewsets.ViewSet):
         return Response(ordered_data) 
 
     def retrieve(self, request, pk):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
+        queryset = Post.objects.all()
+        post = get_object_or_404(queryset, pk=pk)
 
-        serialized = UserSerializer(user)
+        serialized = UserSerializer(post)
         return Response(serialized.data)
 
 class EventsView(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self):
         pass
 
-    def list(self):
+    def list(self, request):
         queryset        = Event.objects.all()
         serialized      = EventSerializer(queryset, many=True)
 
         return serialized.data
 
     def retrieve(self, request, pk):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
+        queryset = Event.objects.all()
+        event = get_object_or_404(queryset, pk=pk)
 
-        serialized = UserSerializer(user)
+        serialized = UserSerializer(event)
         return Response(serialized.data)

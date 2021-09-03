@@ -1,15 +1,20 @@
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from rest_framework import generics
+from rest_framework import generics, permissions
 
 from django.contrib.auth.models import User
 
-from users.api.serializers import UserSerializer
+from users.api.serializers import UserSerializer, UserListSerializer
 from users.decorators import unauthenticated_user
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+class UserListView(generics.ListCreateAPIView):
+	queryset			= User.objects.all()
+	serializer_class 	= UserListSerializer
+	permission_classes	= [permissions.IsAuthenticatedOrReadOnly]
 
 class UserViewSet(generics.CreateAPIView):
 	authentication_classes = ()

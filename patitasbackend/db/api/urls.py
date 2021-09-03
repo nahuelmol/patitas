@@ -5,7 +5,7 @@ from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 from django.conf.urls import url
 from django.urls import path
 
-from db.api.views import CatsView, DogsView, PostsView, EventsView, CommentsView
+from db.api.views import CatsView, DogsListView, PostsView, EventsView, CommentsView
 
 from django.views.generic import TemplateView
 
@@ -15,15 +15,14 @@ app_name = 'myapi'
 
 router = routers.SimpleRouter()
 
-
-router.register(r'dogs', 		DogsView, basename='dogs')
-router.register(r'cats', 		CatsView, basename='cats')
-router.register(r'comments', 	CommentsView, basename='comments')
-router.register(r'posts',		PostsView, basename='posts')
-router.register(r'events', 		EventsView, basename='events')
-
 urlpatterns = [
-	path('dogses/', DogsView.as_view({'get':'list'}), name="docs"),
+	path('dogs/', 			DogsListView.as_view(), name="dogs"),
+	path('cats/', 			CatsView.as_view({'get':'list'})),
+	path('cats/<int:pk>', 	CatsView.as_view({'get':'retrieve'})),
+	path('comments/', 		CommentsView.as_view({'get':'list'})),
+	path('comments/<int:pk>',CommentsView.as_view({'get':'retrieve'})),
+	path('posts/',			PostsView.as_view({'get':'list'})),
+	path('posts/<int:pk>', 	PostsView.as_view({'get':'retrieve'}))
 ]
 
 urlpatterns += router.urls

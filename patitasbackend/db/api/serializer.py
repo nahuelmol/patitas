@@ -1,5 +1,8 @@
-from db.models import Cat, Dog, Comment, Post, Event
 from rest_framework import serializers
+
+from django.contrib.auth.models import User
+from db.models import Cat, Dog, Comment, Post, Event
+
 
 class CatSerializer(serializers.ModelSerializer):
 	class Meta:
