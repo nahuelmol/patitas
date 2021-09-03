@@ -25,11 +25,11 @@ class PostListSerializer(serializers.ModelSerializer):
 		model 	= Post 
 
 class PostCreateSerializer(serializers.ModelSerializer):
-	
+
 	owner = serializers.IntegerField(source='user', read_only=True)
 
 	class Meta:
-		fields	= '__all__'
+		fields	= ('id', 'owner')
 		model 	= Post 
 
 	def create(self, validated_data):

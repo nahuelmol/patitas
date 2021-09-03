@@ -78,9 +78,9 @@ class Post(models.Model):
 	username	= models.CharField(max_length = 30)
 	iconname	= models.CharField(max_length = 30)
 	content		= models.TextField()
-	likes		= models.IntegerField()
-	responses 	= models.IntegerField()
-	shared		= models.IntegerField()
+	likes		= models.IntegerField(default=0,)
+	responses 	= models.IntegerField(default=0)
+	shared		= models.IntegerField(default=0)
 
 class Comment(models.Model):
 	owner		= models.ForeignKey(User, on_delete=models.CASCADE,	

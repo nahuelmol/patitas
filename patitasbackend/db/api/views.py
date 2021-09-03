@@ -78,6 +78,9 @@ class PostListCreate(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     permission_classes = [IsUserLoggedIn]
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user.id)
+
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return PostListSerializer
