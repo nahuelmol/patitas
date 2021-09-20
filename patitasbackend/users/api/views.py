@@ -1,22 +1,24 @@
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework import generics, permissions, authentication
+from rest_framework.authtoken.models import Token
 
 from django.contrib.auth.models import User
 
-from users.api.serializers import UserSerializer, UserListSerializer
+from users.api.serializers import UserCreateSerializer, UserListSerializer, RegisterSerializer
 from users.decorators import unauthenticated_user
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 class UserListView(generics.ListCreateAPIView):
 	queryset			= User.objects.all()
 	serializer_class 	= UserListSerializer
 	permission_classes	= [permissions.IsAuthenticatedOrReadOnly]
 
-class UserViewSet(generics.CreateAPIView):
+class UserViewCreate(generics.CreateAPIView):
 	authentication_classes = [
 		authentication.SessionAuthentication,
 		authentication.TokenAuthentication
@@ -24,13 +26,44 @@ class UserViewSet(generics.CreateAPIView):
 
 	permission_classes = ()
 
-	serializer_class = UserSerializer
+	serializer_class = UserCreateSerializer
+
+class RegisterView(APIView):
+	authentication_classes = [
+		authentication.TokenAuthentication]
+	permission_classes = []
+
+	def post(self, request):
+		#serializer = RegisterSerializer(data=request.data)
+
+		#if serializer.is_valid():
+		user = User(
+				email=request.data.get('email'),
+				username=request.data.get('username')
+				)
+		user.set_password(request.data.get('password'))
+		user.save()
+
+		if user:
+			access_token = str(Token.objects.create(user=user))
+			data = {'access_token': access_token}
+
+			print(access_token)
+
+			response = Response(data)
+			response.set_cookie(key='access_token', value=access_token)
+	
+			return response
+		else:
+			response = Response({'resp':'there is any user'})
+			return response
+		
 
 class LoginView(APIView):
 
 	authentication_classes = [
 		authentication.TokenAuthentication,
-		authentication.SessionAuthentication
+		#authentication.SessionAuthentication
     	]
 
 	permission_classes = [
@@ -43,12 +76,21 @@ class LoginView(APIView):
 
 		user 		= authenticate(username=username, password=password)
 
+		print(user)
+
 		if user:
 			print('The user is: '+ user.username)
+			access_token = user.auth_token.key
+			data = {'access_token':access_token}
 
-			return Response({"token":user.auth_token.key})
+			response = Response(data)
+			response.set_cookie(key='access_token', value=access_token)
+			return response
 		else:
 			return Response({"error":"Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+	def get(self, request):
+		return request.data
 
 class ListUsers(APIView):
 

@@ -4,29 +4,39 @@
 	<title>Login and Register</title>
 </head>
 <body>
-	<form action="http://localhost:8000/user/login/" method="post">
+  <h3>Login</h3><br>
+	<form target="" action="http://localhost:8000/user/login/" method="post">
 	
-		<label for="u_name">Username:</label><br>
+		  <label for="u_name">Username:</label><br>
   		<input type="text" id="u_name" name="username"><br>
-  		<label for="pass">Password:</label><br>
-  		<input type="text" id="pass" name="password">
 
-  		<label for="u_email">Email: </label><br>
-  		<input type="text" id="u_email" name="email">
-
-  		<input type="submit" value="Submit">
-	</form>
-
-	<form action="http://localhost:8000/user/register/" method="post">
-	
-		<label for="u_name">Username:</label><br>
-  		<input type="text" id="u_name" name="username"><br>
   		<label for="pass">Password:</label><br>
   		<input type="text" id="pass" name="password"><br>
+
   		<label for="u_email">Email: </label><br>
   		<input type="text" id="u_email" name="email"><br>
 
   		<input type="submit" value="Submit">
 	</form>
+
+  <br><h3>Register</h3><br>
+
+	<form action="http://localhost:8000/user/register/" method="post">
+	
+		  <label for="u_name">Username:</label><br>
+  		<input type="text" id="u_name" name="username"><br>
+
+  		<label for="pass">Password:</label><br>
+  		<input type="text" id="pass" name="password"><br>
+
+  		<label for="u_email">Email: </label><br>
+  		<input type="text" id="u_email" name="email"><br>
+
+  		<input type="submit" value="Submit">
+	</form>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    
+  </script>
 </body>
 </html>
