@@ -31,12 +31,16 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'patitasbackend.urls'
 
@@ -94,8 +98,17 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
-                      'content-type', 'accept', 'origin', 'authorization')
+CORS_ALLOW_HEADERS = (
+    'content-disposition', 
+    'content-type', 
+    'accept', 
+    'accept-encoding',
+    'user-agent',
+    "x-csrftoken",
+    "x-requested-with",
+    'origin', 
+    'dnt',
+    'authorization')
 
 LANGUAGE_CODE = 'en-us'
 
