@@ -49,11 +49,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 class UserListSerializer(serializers.ModelSerializer):
 
-	cats		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-	dogs		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-	postes		= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-	comments 	= serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
 	class Meta:
 		model = User 
-		fields = ('id', 'username', 'dogs', 'postes', 'cats')
+		fields = ('id', 'username')
