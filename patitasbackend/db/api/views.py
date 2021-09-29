@@ -21,7 +21,7 @@ import jwt
 
 class CatsView(viewsets.ViewSet):
 
-    authentication_classes = [ authentication.SessionAuthentication]
+    authentication_classes = [ authentication.TokenAuthentication]
     permission_classes = [  permissions.IsAuthenticatedOrReadOnly, 
                             IsUserLoggedIn]
 
@@ -44,20 +44,37 @@ class CatsView(viewsets.ViewSet):
             health_state=request.data.get('health_state')
             )
 
-        return redirect('myapi:cats')
+        return redirect(reverse('myapi:cats'))
 
     def list(self,request):
+        user_token = request.COOKIES.get('access_token')
+        if not user_token:
+            raise AuthenticationFailed()
+
         queryset        = Cat.objects.all()
-        serialized      = CatSerializer(queryset, many=True)
-        
-        return Response(serialized.data) 
+
+        if queryset:
+            serialized      = CatSerializer(queryset, many=True)
+            return Response(serialized.data)
+        else:
+            data = {'queryset':'there is not queryset'}
+            response = Response(data)
+            return response 
 
     def retrieve(self, request, pk):
-        queryset = Cat.objects.all()
-        cat = get_object_or_404(queryset, pk=pk)
+        user_token = request.COOKIES.get('access_token')
+        if not user_token:
+            raise AuthenticationFailed()
 
-        serialized = CatSerializer(cat)
-        return Response(serialized.data)
+        queryset = Cat.objects.all()
+        if queryset:
+            cat = get_object_or_404(queryset, pk=pk)
+            serialized = CatSerializer(cat)
+            return Response(serialized.data)
+        else:
+            data = {'queryset':'there is not a queryset'}
+            response = Response(data)
+            return response
 
 class DogsListView(viewsets.ViewSet):
     queryset            = Dog.objects.all()
