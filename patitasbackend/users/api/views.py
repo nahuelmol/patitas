@@ -24,8 +24,7 @@ class UserListView(generics.ListCreateAPIView):
 
 class UserViewCreate(generics.CreateAPIView):
 	authentication_classes = [
-		authentication.TokenAuthentication
-	]
+		authentication.TokenAuthentication]
 
 	permission_classes = ()
 
@@ -38,9 +37,6 @@ class RegisterView(APIView):
 		permissions.AllowAny]
 
 	def post(self, request):
-		#serializer = RegisterSerializer(data=request.data)
-
-		#if serializer.is_valid():
 		new_user = User(
 				email=request.data.get('email'),
 				username=request.data.get('username')
@@ -51,8 +47,6 @@ class RegisterView(APIView):
 		if new_user:
 			access_token = generate_access_token(new_user)
 			data = {'access_token': access_token}
-
-			print(access_token)
 
 			response = Response(data)
 			response.set_cookie(key='access_token', value=access_token)
@@ -66,12 +60,10 @@ class RegisterView(APIView):
 class LoginView(APIView):
 
 	authentication_classes = [
-		authentication.TokenAuthentication,
-    	]
+		authentication.TokenAuthentication]
 
 	permission_classes = [
-		permissions.AllowAny
-	]
+		permissions.AllowAny]
 
 	def post(self,request):
 		username 	= request.data.get('username', None)
@@ -106,11 +98,9 @@ class LoginView(APIView):
 
 class ListUsers(APIView):
 	authentication_classes = [
-		authentication.TokenAuthentication
-		]
+		authentication.TokenAuthentication]
 	permission_classes = [
-		permissions.AllowAny
-		]
+		permissions.AllowAny]
 
 	def get(self, request, format=None):
 		cookies = []

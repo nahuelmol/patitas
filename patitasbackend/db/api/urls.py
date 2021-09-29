@@ -1,30 +1,32 @@
 from rest_framework import routers
-from rest_framework.schemas import get_schema_view
-from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 
 from django.conf.urls import url
 from django.urls import path
 
 from db.api.views import CatsView, DogsListView, PostsView, EventsView, CommentsView
-from db.api.views import PostListCreate
-
-from django.views.generic import TemplateView
-
-schema_view = get_schema_view(title='Users API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 
 app_name = 'myapi'
 
 router = routers.SimpleRouter()
 
 urlpatterns = [
-	path('dogs/', 			DogsListView.as_view(), name="dogs"),
-	path('cats/', 			CatsView.as_view({'get':'list'})),
+	path('dogs/', 			DogsListView.as_view({'get':'list'}), name="dogs"),
+	path('dogs/<int:pk>',	DogsListView.as_view({'get':'retrive'})),
+	path('dog/create',		DogsListView.as_view({'post':'create'})),
+	path('cats/', 			CatsView.as_view({'get':'list'}), name="cats"),
 	path('cats/<int:pk>', 	CatsView.as_view({'get':'retrieve'})),
-	path('comments/', 		CommentsView.as_view({'get':'list'})),
+	path('cat/create', 		CatsView.as_view({'post':'create'})),
+
+	path('events/',			EventsView.as_view({'get':'list'})),
+	path('events/<int:pk>',	EventsView.as_view({'get':'retrieve'})),
+	path('event/create',	EventsView.as_view({'post':'create'})),
+
+	path('comments/', 		CommentsView.as_view({'get':'list'}), name="comments"),
 	path('comments/<int:pk>',CommentsView.as_view({'get':'retrieve'})),
-	path('posts/',			PostsView.as_view({'get':'list'})),
+	path('comment/create',	CommentsView.as_view({'post':'create'})),
+	path('posts/',			PostsView.as_view({'get':'list'}), name="posts"),
 	path('posts/<int:pk>', 	PostsView.as_view({'get':'retrieve'})),
-	path('post/create',		PostListCreate.as_view())
+	path('post/create',		PostsView.as_view({'post':'create'}))
 ]
 
 urlpatterns += router.urls

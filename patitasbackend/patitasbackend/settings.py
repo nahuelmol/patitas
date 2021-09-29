@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'toOrder',
     'users',
     'rest_framework.authtoken',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
