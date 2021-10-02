@@ -28,6 +28,7 @@ class CatsView(viewsets.ViewSet):
 
     def create(self, request):
         user_token  = request.COOKIES.get('access_token')
+        headers     = request.META
 
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
         user_model = get_user_model()
@@ -44,11 +45,21 @@ class CatsView(viewsets.ViewSet):
             publisher=user,
             health_state=request.data.get('health_state')
             )
+        new_cat.save()
 
-        return redirect(reverse('myapi:cats'))
+        if new_cat:
+            response = redirect(headers.get('HTTP_REFERER', '/catcreate'))
+            response.data = {'created':'aha'}
+            return response
+        else:
+            response = redirect(headers.get('HTTP_REFERER', '/catcreate'))
+            response.data = {'created':'not created'}
+            return response
 
     def list(self,request):
-        user_token = request.COOKIES.get('access_token')
+        user_token  = request.COOKIES.get('access_token')
+        headers     = request.META 
+
         if not user_token:
             raise AuthenticationFailed()
 
@@ -56,11 +67,14 @@ class CatsView(viewsets.ViewSet):
 
         if queryset:
             serialized      = CatSerializer(queryset, many=True)
-            return Response(serialized.data)
+
+            response = redirect(headers.get('HTTP_REFERER', '/dogcreate'))
+            response.data = {'cats':serialized.data}
+            return response
         else:
-            data = {'queryset':'there is not queryset'}
-            response = Response(data)
-            return response 
+            response = redirect(headers.get('HTTP_REFERER', '/dogcreate'))
+            response.data = {'created':'not created'}
+            return response
 
     def retrieve(self, request, pk):
         user_token = request.COOKIES.get('access_token')
@@ -71,10 +85,13 @@ class CatsView(viewsets.ViewSet):
         if queryset:
             cat = get_object_or_404(queryset, pk=pk)
             serialized = CatSerializer(cat)
-            return Response(serialized.data)
+            response = redirect(headers.get('HTTP_REFERER', '/profile'))
+
+            response.data = {'cat':serialized.data}
+            return response
         else:
-            data = {'queryset':'there is not a queryset'}
-            response = Response(data)
+            response = redirect(headers.get('HTTP_REFERER', '/feed'))
+            response.data = {'queryset':'there is not a queryset'}
             return response
 
 class DogsListView(viewsets.ViewSet):
@@ -86,12 +103,13 @@ class DogsListView(viewsets.ViewSet):
 
     def create(self, request):
         user_token  = request.COOKIES.get('access_token')
+        headers     = request.META
 
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
         user_model = get_user_model()
         user = user_model.objects.filter(id=payload['user_id']).first()
 
-        new_cat = Cat(
+        new_dog = Dog(
             name=request.data.get('name'),
             age=request.data.get('age'),
             race=request.data.get('race'),
@@ -102,11 +120,21 @@ class DogsListView(viewsets.ViewSet):
             publisher=user,
             health_state=request.data.get('health_state')
             )
-        return redirect(reverse('myapi:dogs'))
+        new_dog.save()
+
+        if new_dog:
+            response = redirect(headers.get('HTTP_REFERER', '/dogcreate'))
+            response.data = {'created':'aha'}
+            return response
+        else:
+            response = redirect(headers.get('HTTP_REFERER', '/dogcreate'))
+            response.data = {'created':'not created'}
+            return response
 
     def list(self, request):
         queryset        = Dog.objects.all()
         serialized      = DogSerializer(queryset, many=True)
+        headers         = request.META
 
         user_token  = request.COOKIES.get('access_token')
 
@@ -114,11 +142,13 @@ class DogsListView(viewsets.ViewSet):
             raise AuthenticationFailed("unauthenticated user")
 
         if not queryset:
-            data = {'queryset':'the queyset is empty'}
-            response = Response(data)
+            response = redirect(headers.get('HTTP_REFERER', '/feed'))
+            response.data = {'queryset':'the queyset is empty'}
             return response
 
-        return redirect(reverse('myapi:dogs'))
+        response = redirect(headers.get('HTTP_REFERER', '/dogs'))
+        response.data = serialized.data
+        return response
 
 
 class CommentsView(viewsets.ViewSet):
@@ -129,6 +159,7 @@ class CommentsView(viewsets.ViewSet):
 
     def create(self):
         user_token  = request.COOKIES.get('access_token')
+        headers     = request.META
 
         if not user_token:
             raise AuthenticationFailed("unauthenticated user")
@@ -143,26 +174,54 @@ class CommentsView(viewsets.ViewSet):
             content=content)
         new_comm.save()
 
-        return redirect(reverse('myapi:comments'))
+        if new_com:
+            response = redirect(headers.get('HTTP_REFERER', '/dogcreate'))
+            response.data = {'created':'aha'}
+            return response
+        else:
+            response = redirect(headers.get('HTTP_REFERER', '/dogcreate'))
+            response.data = {'created':'not created'}
+            return response
+        
 
 
     def list(self, request):
         queryset        = Comment.objects.all()
         serialized      = CommentSerializer(queryset, many=True)
+        headers         = request.META
 
         user_token  = request.COOKIES.get('access_token')
 
         if not user_token:
             raise AuthenticationFailed("unauthenticated user")
+        if not queryset:
+            response = redirect(headers.get('HTTP_REFERER', '/dogs'))
+            response.data = {'data':'there is no data'}
+            return response
 
-        return Response(serialized.data) 
+        response = redirect(headers.get('HTTP_REFERER', '/dogs'))
+        response.data = {'list':serialized.data}
+        return response 
 
     def retrieve(self, request, pk):
-        queryset = Comment.objects.all()
-        comment = get_object_or_404(queryset, pk=pk)
+        headers     = request.META
+        user_token  = request.COOKIES.get('access_token')
 
-        serialized = CommentSerializer(comment)
-        return Response(serialized.data)
+        if not user_token:
+            raise AuthenticationFailed("unauthenticated user")
+
+        queryset    = Comment.objects.all()
+        comment     = get_object_or_404(queryset, pk=pk)
+        serialized  = CommentSerializer(comment)
+
+        if not queryset:
+            response = redirect(headers.get('HTTP_REFERER', '/comments'))
+            response.data = {'comment':'there is not comment'}
+            return response
+
+        response = redirect(headers.get('HTTP_REFERER', '/comment'))
+        response.data = {'comment':serialized.data}
+        return response
 
 class PostsView(viewsets.ViewSet):
     authentication_classes  = [authentication.TokenAuthentication]
@@ -170,6 +229,7 @@ class PostsView(viewsets.ViewSet):
 
     def create(self, request):
         user_token  = request.COOKIES.get('access_token')
+        headers     = request.META
 
         if not user_token:
             raise AuthenticationFailed("unauthenticated user")
@@ -184,7 +244,14 @@ class PostsView(viewsets.ViewSet):
             content=content)
         new_post.save()
 
-        return redirect(reverse('myapi:posts'))
+        if new_post:
+            response = redirect(headers.get('HTTP_REFERER', '/post'))
+            response.data = {'created':'aha'}
+            return response
+        else:
+            response = redirect(headers.get('HTTP_REFERER', '/'))
+            response.data = {'created':'nel'}
+            return response
 
     def list(self, request):
         queryset        = Post.objects.all()
@@ -226,7 +293,7 @@ class EventsView(viewsets.ViewSet):
 
     def create(self):
         user_token  = request.COOKIES.get('access_token')
-
+        headers     = request.META
         if not user_token:
             raise AuthenticationFailed()
 
@@ -241,10 +308,18 @@ class EventsView(viewsets.ViewSet):
             )
         new_event.save()
 
-        return redirect(reverse('myapi:events'))
+        if new_event:
+            response = redirect(headers.get('HTTP_REFERER', '/event_detail'))
+            response.data = {'created':'aha'}
+            return response
+        else:
+            response = redirect(headers.get('HTTP_REFERER', '/events_feed'))
+            response.data = {'created':'no, redirecting to all events page'}
+            return response
 
     def list(self, request):
-        user_token = request.COOKIES.get('access_token')
+        user_token  = request.COOKIES.get('access_token')
+        headers     = request.META
 
         if not user_token:
             raise AuthenticationFailed()
@@ -253,10 +328,12 @@ class EventsView(viewsets.ViewSet):
 
         if queryset:
             serialized      = EventSerializer(queryset, many=True)
-            return Response(serialized.data)
+            response = redirect(headers.get('HTTP_REFERER', '/events_feed'))
+            response.data   = {'events':serialized.data}
+            return response
         else:
-            data = {'queryset':'there is not queryset'}
-            response = Response(data)
+            response = redirect(headers.get('HTTP_REFERER', '/feed'))
+            response.data = {'queryset':'there is not queryset'}
             return response
 
 
@@ -269,10 +346,13 @@ class EventsView(viewsets.ViewSet):
         queryset = Event.objects.all()
         if queryset:
             event = get_object_or_404(queryset, pk=pk)
-            serialized = UserSerializer(event)
-            return Response(serialized.data)
+            serialized = EventSerializer(event)
+
+            response = redirect(headers.get('HTTP_REFERER', '/event_detail'))
+            response.data = {'going to':'detail'}
+            return response
         else:
-            data = {'queryset':'there is not queryset'}
-            response = Response(data)
+            response = redirect(headers.get('HTTP_REFERER', '/feed'))
+            response.data = {'queryset':'there is not queryset, not event'}
             return response
 
