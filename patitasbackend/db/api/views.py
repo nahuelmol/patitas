@@ -8,7 +8,8 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.conf import settings
+from django.conf import Settings
+from django.http import HttpResponse
 
 from db.permissions import IsUserLoggedIn
 from db.models import Cat, Dog, Comment, Post, Event
@@ -195,11 +196,17 @@ class PostsView(viewsets.ViewSet):
             raise AuthenticationFailed("unauthenticated user")
 
         if queryset:
-            ordered_data = last_first(serialized.data)
-            return Response(ordered_data) 
+            ordered_data    = last_first(serialized.data)
+            response        = Response()
+
+            response.data   = {'posts':ordered_data}
+            return response 
+
         if not queryset:
             context = {'queryset':'there is not a queryset'}
-            return Response(context)
+            response = Response()
+            response.data = context
+            return response
 
     def retrieve(self, request, pk):
         queryset = Post.objects.all()

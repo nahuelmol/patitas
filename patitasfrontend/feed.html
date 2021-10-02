@@ -5,7 +5,6 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
   	<link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/yeti/bootstrap.min.css">
-
   	<style type="text/css">
   		.posted {
   			padding: 20px;
@@ -19,55 +18,14 @@
 		<div><a href="http://localhost:8080/homepage.html">Go to Home</a></div>
 	</nav>
 	<div class="content">
+		<div id="sel"></div>
 		<div class="container center" id="top">
 			<h1>Last</h1>
 			<div id="cosa"></div>
 		</div>
-		<div class="row">
-			<div class="left-column col-md">
-				<h3>PatitasNet</h3>
-				<p class="explaination">This network respect privacy norms, against the cultural cancellation straight with our main objectives, to save those animals in needs</p>
-			</div>
-			<div class="centered-coulmn col-md">
-				<div class="feed container">
-					<div class="posted container">
-						<div class="card container">
-							<p id="lastuser"></p>
-							<p id="lastcontent"></p>
-
-							<div class="container jumbotron row">
-								<button id="lastshare" name="data" onclick="calling_shares()" class="col-md text-center lastshare"></button>
-								<button id="lastlikes" name="data" onclick="calling_likes()" class="col-md text-center lastlikes"></button>
-								<button id="lastresps" onclick="calling_resps()" class="col-md text-center "></button>
-							</div>
-						</div>
-					</div>
-					<div class="posted container">
-						<div class="card container">
-							<p id="prelastuser"></p>
-							<p id="prelastcontent"></p>
-
-							<div class="container jumbotron row">
-								<div id="prelastshare" class="col-md text-center"></div>
-								<div id="prelastlikes" class="col-md text-center"></div>
-								<div id="prelastresps" class="col-md text-center"></div>
-							</div>
-						</div>
-					</div>
-					<div clas="card container posted">
-				<p class="content"></p>
-				<div class="stats row">
-					<div class="col-md text-center"></div>
-					<div class="col-md text-center"></div>
-					<div class="col-md text-center"></div>
-				</div>
-					</div>
-				</div>
-			</div>
-			<div class="rigth-coulmn col-md"></div>
-		</div>
 		
 	</div>
+
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

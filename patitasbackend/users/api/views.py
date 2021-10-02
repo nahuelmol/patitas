@@ -8,6 +8,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from users.api.serializers import UserCreateSerializer, UserListSerializer, RegisterSerializer
 from users.decorators import unauthenticated_user
 
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -37,23 +38,33 @@ class RegisterView(APIView):
 		permissions.AllowAny]
 
 	def post(self, request):
+		headers 	= request.META
+		email_ 		= request.data.get('email')
+		username_ 	= request.data.get('username')
+		pass_ 		= request.data.get('password')
+
 		new_user = User(
-				email=request.data.get('email'),
-				username=request.data.get('username')
+				email=email_,
+				username=username_
 				)
-		new_user.set_password(request.data.get('password'))
+		new_user.set_password(pass_)
 		new_user.save()
 
 		if new_user:
 			access_token = generate_access_token(new_user)
-			data = {'access_token': access_token}
-
-			response = Response(data)
-			response.set_cookie(key='access_token', value=access_token)
-	
-			return response
+			if access_token:
+				response = redirect(headers.get('HTTP_REFERER', '/'))
+				response.set_cookie(key='access_token', value=access_token)
+				response.data = {'access_token': 'created'}
+		
+				return response
+			else:
+				response = redirect(headers.get('HTTP_REFERER', '/'))
+				response.data = {'access_token':'was not created'}
+				return response
 		else:
-			response = Response({'resp':'there is any user'})
+			response = redirect(headers.get('HTTP_REFERER', '/'))
+			response.data = {'user':'there is no such user'}
 			return response
 		
 
@@ -68,6 +79,7 @@ class LoginView(APIView):
 	def post(self,request):
 		username 	= request.data.get('username', None)
 		password	= request.data.get('password', None)
+		headers 	= request.META
 
 		if not password:
 			raise AuthenticationFailed("An user password is needed")
@@ -80,14 +92,16 @@ class LoginView(APIView):
 			print('The user is: '+ user.username)
 			user_access_token = generate_access_token(user)
 
-			response = Response()
+			response = redirect(headers.get('HTTP_REFERER', '/'))
 			response.set_cookie(key='access_token', value=user_access_token,httponly=True)
 			response.data = {
 				'access_token':user_access_token
 			}
 			return response
 		else:
-			return Response({"error":"Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+			response = redirect(headers.get('HTTP_REFERER', '/'),status=status.HTTP_400_BAD_REQUEST)
+			response.data = {"error":"Wrong Credentials"}
+			return response
 
 	def get(self, request):
 		data = {"server-side":"is not posible to make GET to this endpoint"}
@@ -105,6 +119,7 @@ class ListUsers(APIView):
 	def get(self, request, format=None):
 		cookies = []
 		user_token 	= request.COOKIES.get('access_token')
+		headers 	= request.META
 
 		for k in request.COOKIES:
 			cookies.append(k)
@@ -118,7 +133,12 @@ class ListUsers(APIView):
 		user = user_model.objects.filter(id=payload['user_id']).first()
 
 		usernames = [user.username for user in User.objects.all()]
-		return Response(usernames)
+
+		response = Response()
+		response.data = {
+			'users':usernames
+		}
+		return response
 
 class UserLogout(APIView):
 	authentication_classes 	= [
