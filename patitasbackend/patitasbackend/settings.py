@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'toOrder',
     'users',
+    'emailer',
     'rest_framework.authtoken',
     'rest_framework_swagger'
 ]

@@ -7,15 +7,18 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from users.api.serializers import UserCreateSerializer, UserListSerializer, RegisterSerializer
 from users.decorators import unauthenticated_user
+from users.utils import generate_access_token
+
+from emailer.controllers import sendmessage
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.conf import settings
 
-from users.utils import generate_access_token
 import jwt
 
 class UserListView(generics.ListCreateAPIView):
@@ -38,10 +41,19 @@ class RegisterView(APIView):
 		permissions.AllowAny]
 
 	def post(self, request):
+		user_token 	= request.COOKIES.get('access_token')
+
+		if user_token:
+			messages.error(request, 'An users is logged in, first logout, end the current session')
+
 		headers 	= request.META
 		email_ 		= request.data.get('email')
 		username_ 	= request.data.get('username')
 		pass_ 		= request.data.get('password')
+
+
+		if not email_:
+			messages.error(request, 'An email is required for verification process')
 
 		new_user = User(
 				email=email_,
@@ -56,6 +68,8 @@ class RegisterView(APIView):
 				response = redirect(headers.get('HTTP_REFERER', '/'))
 				response.set_cookie(key='access_token', value=access_token)
 				response.data = {'access_token': 'created'}
+
+				sendmessage(email_)
 		
 				return response
 			else:
@@ -88,18 +102,27 @@ class LoginView(APIView):
 
 		user 		= authenticate(username=username, password=password)
 
-		if user.is_active:
-			print('The user is: '+ user.username)
+		if user:
+			messages.success(request, 'logged in')
 			user_access_token = generate_access_token(user)
 
-			response = redirect(headers.get('HTTP_REFERER', '/'))
-			response.set_cookie(key='access_token', value=user_access_token,httponly=True)
-			response.data = {
-				'access_token':user_access_token
-			}
-			return response
+			if user_access_token:
+				response = redirect(headers.get('HTTP_REFERER', '/'))
+				response.set_cookie(key='access_token', value=user_access_token,httponly=True)
+				response.data = {
+					'access_token':user_access_token
+				}
+				return response
+			else:
+				messages.error(request, 'not logged in')
+				response = redirect(headers.get('HTTP_REFERER', '/login'))
+				response.data = {
+					'access_token':'user access_token not generated'
+				}
+				return response
 		else:
-			response = redirect(headers.get('HTTP_REFERER', '/'),status=status.HTTP_400_BAD_REQUEST)
+			messages.error(request, 'user not active')
+			response = redirect(headers.get('HTTP_REFERER', '/login'),status=status.HTTP_400_BAD_REQUEST)
 			response.data = {"error":"Wrong Credentials"}
 			return response
 
@@ -149,18 +172,15 @@ class UserLogout(APIView):
 	def get(self, request):
 
 		user_token  = request.COOKIES.get('access_token', None)
-		print(user_token)
+		headers 	= request.META
+
 		if user_token:
-			response = Response()
+			response = redirect(headers.get('HTTP_REFERER', '/login'))
 			response.delete_cookie('access_token')
-			response.data = {
-				'message':'logged out successfully'
-			}
+			messages.success(request, 'logged out successfully')
 			return response 
-		response = Response()
-		response.data = {
-			'message':'User is already logged out'
-			}
+		response = redirect(headers.get('HTTP_REFERER', '/homepage'))
+		messages.success(request, 'you are already logged out')
 		return response
 
 class UserView(APIView):
@@ -172,13 +192,28 @@ class UserView(APIView):
 	def get(self, request, pk):
 
 		user_token 	= request.COOKIES.get('access_token')
+		headers 	= request.META
 
 		if not user_token:
 			raise AuthenticationFailed()
 
 		queryset = User.objects.all()
-		user = get_object_or_404(queryset, pk=pk)
 
-		serialized = UserSerializer(user)
-		return Response(serialized.data)
+		if queryset:
+			user 		= get_object_or_404(queryset, pk=pk)
+			serialized 	= UserSerializer(user)
+
+			if user:
+				messages.success(request, 'the user was found')
+				response 	= redirect(headers.get('HTTP_REFERER','/profile'))
+				return reponse
+
+			messages.error(request, 'the user does not exists')
+			response = redirect(headers.get('HTTP_REFERER','/homepage'))
+			return response
+
+		messages.error(request, 'error retrieving the user')
+		response 	= redirect(headers.get('HTTP_REFERER','/homepage'))
+		return reponse
+
 
