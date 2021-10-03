@@ -18,33 +18,30 @@
 
   		<input type="submit" value="Submit">
 	</form>
+  <div id="msg_receptor"></div>
 
-  <br><h3>Register</h3><br>
-
-	<form action="http://localhost:8000/user/register/" method="post">
-	
-		  <label for="u_name">Username:</label><br>
-  		<input type="text" id="u_name" name="username"><br>
-
-  		<label for="pass">Password:</label><br>
-  		<input type="text" id="pass" name="password"><br>
-
-  		<label for="u_email">Email: </label><br>
-  		<input type="text" id="u_email" name="email"><br>
-
-  		<input type="submit" value="Submit">
-	</form>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript">
-    //$(document).ready(function(){
-    //  var $form = $('form');
-    //  $form.submit(function(){
-    //     $.post($(this).attr('action'), $(this).serialize(), function(response){
-    //           // do something here on success
-    //     },'json');
-    //     return false;
-    //  });
-    //});
+    function getCookie(name) {  
+        var dc = document.cookie;  
+        var prefix = name +"=";  
+        var begin = dc.indexOf("; " + prefix);  
+        if (begin == -1) {  
+            begin = dc.indexOf(prefix);  
+            if (begin != 0)return null;  
+        } else {  
+            begin += 2;  
+        }  
+        var end = document.cookie.indexOf(";", begin);  
+        if (end == -1) {  
+            end = dc.length;  
+        }  
+        return unescape(dc.substring(begin + prefix.length, end));  
+    } 
+
+    var result = getCookie('message');
+    document.getElementById('msg_receptor').innerHTML = result;
+    console.log(result);
   </script>
 </body>
 </html>

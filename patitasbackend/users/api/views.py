@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.conf import settings
 
 import jwt
@@ -42,6 +42,7 @@ class RegisterView(APIView):
 
 	def post(self, request):
 		user_token 	= request.COOKIES.get('access_token')
+		old_user 	= 0
 
 		if user_token:
 			messages.error(request, 'An users is logged in, first logout, end the current session')
@@ -60,7 +61,22 @@ class RegisterView(APIView):
 				username=username_
 				)
 		new_user.set_password(pass_)
-		new_user.save()
+
+		try:
+			User.objects.get(username=username_)
+			old_user = 1
+		except Exception as e:
+			old_user = 0
+
+		print(new_user)
+
+		if not old_user:
+			new_user.save()
+		else:
+			response = redirect(headers.get('HTTP_REFERER', '/') + 'login')
+			response.set_cookie(key='message', value='There already exists a user with that username')
+
+			return  response 
 
 		if new_user:
 			access_token = generate_access_token(new_user)
