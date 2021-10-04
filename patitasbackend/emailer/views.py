@@ -15,6 +15,7 @@ from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 
+
 SCOPES = ['https://mail.google.com/']
 
 def get_service():
@@ -50,12 +51,38 @@ def send_message(service,user_id,message):
 
 def create_message_with_attachment(sender,to,subject,body):
     message = MIMEMultipart()
+
+    msg_content_html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>My Title</title>
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/superhero/bootstrap.min.css">
+    <style type="text/css">
+      span.bold {font-weight: bold;}
+      table.noborder {border: 0px; padding: 8px;}
+      th {text-align: left;}
+    </style>
+     </head>
+    <body>
+    <div class="container">
+        <p>
+        Click on the button below to verify your patitas account
+        </p>
+        <button type="button" class="btn btn-success">Verify</button>
+    </div>
+    
+    </body>
+    </html>
+    """
+
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
 
-    msg = MIMEText(body)
-    message.attach(msg)
+    html_part   = MIMEText(msg_content_html, 'html')
+
+    message.attach(html_part)
     
     raw_msg = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
 

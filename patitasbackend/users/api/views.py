@@ -107,9 +107,27 @@ class LoginView(APIView):
 		permissions.AllowAny]
 
 	def post(self,request):
-		username 	= request.data.get('username', None)
-		password	= request.data.get('password', None)
-		headers 	= request.META
+		username 		= request.data.get('username', None)
+		password		= request.data.get('password', None)
+		headers 		= request.META
+		current_token	= request.COOKIES.get('access_token')
+
+		old_user = 1
+
+		if current_token:
+			response = redirect(headers.get('HTTP_REFERER', '/') + 'homepage')
+			reponse.set_cookie(key='message',value='You are already logged in')
+			return response
+
+		try:
+			User.objects.get(username=username)
+		except Exception as e:
+			old_user = 0
+
+		if old_user == 0:
+			response = redirect(headers.get('HTTP_REFERER', '/') + 'login')
+			response.set_cookie(key='message',value='That user does not exists')
+			return response
 
 		if not password:
 			raise AuthenticationFailed("An user password is needed")
@@ -119,27 +137,19 @@ class LoginView(APIView):
 		user 		= authenticate(username=username, password=password)
 
 		if user:
-			messages.success(request, 'logged in')
+			response = redirect(headers.get('HTTP_REFERER', '/') + 'homepage')
+			response.set_cookie(key='message',value='successfully, logged in')
 			user_access_token = generate_access_token(user)
 
 			if user_access_token:
-				response = redirect(headers.get('HTTP_REFERER', '/'))
 				response.set_cookie(key='access_token', value=user_access_token,httponly=True)
-				response.data = {
-					'access_token':user_access_token
-				}
 				return response
 			else:
-				messages.error(request, 'not logged in')
-				response = redirect(headers.get('HTTP_REFERER', '/login'))
-				response.data = {
-					'access_token':'user access_token not generated'
-				}
+				response.set_cookie(key='message',value='token not generated')
 				return response
 		else:
-			messages.error(request, 'user not active')
-			response = redirect(headers.get('HTTP_REFERER', '/login'),status=status.HTTP_400_BAD_REQUEST)
-			response.data = {"error":"Wrong Credentials"}
+			response = redirect(headers.get('HTTP_REFERER', '/') + 'login')
+			response.set_cookie(key='message', value='there, authentication failed')
 			return response
 
 	def get(self, request):

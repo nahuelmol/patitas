@@ -1,2 +1,3 @@
 /patitasbackend/emailer/token.pickle
 /patitasbackend/emailer/credentials.json
+/patitasbackend/db.sqlite3

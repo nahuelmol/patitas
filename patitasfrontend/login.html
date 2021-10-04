@@ -2,23 +2,39 @@
 <html>
 <head>
 	<title>Login and Register</title>
+  <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/superhero/bootstrap.min.css">
 </head>
 <body>
-  <h3>Login</h3><br>
-	<form target="" action="http://localhost:8000/user/login/" method="post">
+  
+  <div class="container">
+    <h3>Login</h3><br>
+    <div id="msg_receptor" class="alert alert-dismissible alert-danger"></div><br>
+
+    <form target="" action="http://localhost:8000/user/login/" method="post">
+     <div class="form-group row">
+       <label for="u_name" class="col-sm-2 col-form-label">Username:</label><br>
+        <input class="form-control-plaintext" type="text" id="u_name" name="username"><br>
+     </div>
+      
+     <div class="form-group row">
+        <label for="pass" class="col-sm-2 col-form-label">Password:</label><br>
+        <input class="form-control-plaintext" type="password" id="pass" name="password"><br>
+     </div>
+      
+      <div class="form-group row">
+        <label for="u_email" class="col-sm-2 col-form-label">Email: </label><br>
+        <input class="form-control-plaintext" type="email" id="u_email" name="email"><br>
+      </div>
+
+      <input type="submit" value="Submit">
+  </form>
+
+
+  </div>
 	
-		  <label for="u_name">Username:</label><br>
-  		<input type="text" id="u_name" name="username"><br>
 
-  		<label for="pass">Password:</label><br>
-  		<input type="text" id="pass" name="password"><br>
 
-  		<label for="u_email">Email: </label><br>
-  		<input type="text" id="u_email" name="email"><br>
 
-  		<input type="submit" value="Submit">
-	</form>
-  <div id="msg_receptor"></div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript">
