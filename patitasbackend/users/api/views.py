@@ -96,7 +96,6 @@ class RegisterView(APIView):
 			response = redirect(headers.get('HTTP_REFERER', '/'))
 			response.data = {'user':'there is no such user'}
 			return response
-		
 
 class LoginView(APIView):
 
@@ -242,4 +241,20 @@ class UserView(APIView):
 		response 	= redirect(headers.get('HTTP_REFERER','/homepage'))
 		return reponse
 
+class VerifyUserEmail(APIView):
+	def get(self, request):
+		headers  		= request.META
+		access_token 	= request.COOKIES.get('access_token')
+
+		payload = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+		user_model = get_user_model()
+		user = user_model.objects.filter(id=payload['user_id']).first()
+
+		print(user.is_staff)
+		user.is_staff = True
+		user.save()
+		print(user.is_staff)
+
+		response = redirect(headers.get('HTTP_REFERER','/')+ 'homepage')
+		return response
 

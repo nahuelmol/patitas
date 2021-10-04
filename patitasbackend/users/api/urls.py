@@ -4,7 +4,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from users.api.views import LoginView, RegisterView, ListUsers, UserViewCreate, UserLogout
-from users.api.views import UserView
+from users.api.views import UserView, VerifyUserEmail
 app_name = 'users_data'
 
 router = routers.SimpleRouter()
@@ -14,6 +14,7 @@ register_view	= RegisterView.as_view()
 list_users 		= ListUsers.as_view()
 logout_view 	= UserLogout.as_view()
 profile_view 	= UserView.as_view()
+verify_view 	= VerifyUserEmail.as_view()
 
 urlpatterns = [
 	path('profile/',	profile_view, name='profile'),
@@ -21,5 +22,6 @@ urlpatterns = [
 	path('logout/', 	logout_view, name='logout'),
 	path('register/',	register_view, name='register'),
 	path('list/',		list_users, name='list'),
+	path('verify_user_by_email/', verify_view)
 ]
 

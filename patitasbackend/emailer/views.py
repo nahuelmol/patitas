@@ -69,7 +69,7 @@ def create_message_with_attachment(sender,to,subject,body):
         <p>
         Click on the button below to verify your patitas account
         </p>
-        <button type="button" class="btn btn-success">Verify</button>
+        <a href="http://localhost:8000/user/verify_user_by_email" type="button" class="btn btn-success">Verify</button>
     </div>
     
     </body>
